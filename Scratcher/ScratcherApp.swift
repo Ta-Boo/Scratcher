@@ -5,9 +5,13 @@ import SwiftUI
 
 @main
 struct ScratcherApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootNavigationView()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .ignoresSafeArea(.all)
         }
     }
 }

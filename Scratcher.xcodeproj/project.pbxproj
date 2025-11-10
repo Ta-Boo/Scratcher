@@ -6,6 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B3295E982EC0B2E800F40393 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3295E972EC0B2E800F40393 /* Assets.xcassets */; };
+		B3295ED12EC1132C00F40393 /* Logger in Frameworks */ = {isa = PBXBuildFile; productRef = B3295ED02EC1132C00F40393 /* Logger */; };
+		B357EBE22EC1F36B002E9FED /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = B357EBE12EC1F36B002E9FED /* Swinject */; };
+		B37A7BC22EC1E667007BC5D8 /* APIClient in Frameworks */ = {isa = PBXBuildFile; productRef = B37A7BC12EC1E667007BC5D8 /* APIClient */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		B3295E9E2EC0B2E800F40393 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -25,8 +32,11 @@
 
 /* Begin PBXFileReference section */
 		B3295E902EC0B2E400F40393 /* Scratcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Scratcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B3295E972EC0B2E800F40393 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B3295E9D2EC0B2E800F40393 /* ScratcherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ScratcherTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3295EA72EC0B2E800F40393 /* ScratcherUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ScratcherUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B3295ECE2EC1121200F40393 /* Logger */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Logger; path = Packages/Logger; sourceTree = "<group>"; };
+		B37A7BC02EC1E60F007BC5D8 /* APIClient */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = APIClient; path = Packages/APIClient; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -52,6 +62,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B37A7BC22EC1E667007BC5D8 /* APIClient in Frameworks */,
+				B3295ED12EC1132C00F40393 /* Logger in Frameworks */,
+				B357EBE22EC1F36B002E9FED /* Swinject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,8 +89,10 @@
 			isa = PBXGroup;
 			children = (
 				B3295E922EC0B2E400F40393 /* Scratcher */,
+				B3295E972EC0B2E800F40393 /* Assets.xcassets */,
 				B3295EA02EC0B2E800F40393 /* ScratcherTests */,
 				B3295EAA2EC0B2E800F40393 /* ScratcherUITests */,
+				B3295ECF2EC1132C00F40393 /* Frameworks */,
 				B3295E912EC0B2E400F40393 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +105,15 @@
 				B3295EA72EC0B2E800F40393 /* ScratcherUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B3295ECF2EC1132C00F40393 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B3295ECE2EC1121200F40393 /* Logger */,
+				B37A7BC02EC1E60F007BC5D8 /* APIClient */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,6 +136,9 @@
 			);
 			name = Scratcher;
 			packageProductDependencies = (
+				B3295ED02EC1132C00F40393 /* Logger */,
+				B37A7BC12EC1E667007BC5D8 /* APIClient */,
+				B357EBE12EC1F36B002E9FED /* Swinject */,
 			);
 			productName = Scratcher;
 			productReference = B3295E902EC0B2E400F40393 /* Scratcher.app */;
@@ -195,6 +222,9 @@
 			);
 			mainGroup = B3295E872EC0B2E400F40393;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				B357EBE02EC1F36B002E9FED /* XCRemoteSwiftPackageReference "Swinject" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B3295E912EC0B2E400F40393 /* Products */;
 			projectDirPath = "";
@@ -212,6 +242,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3295E982EC0B2E800F40393 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,12 +444,16 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.peoplesafe.appstore.Scratcher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -445,12 +480,16 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.peoplesafe.appstore.Scratcher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -578,6 +617,33 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B357EBE02EC1F36B002E9FED /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.10.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B3295ED02EC1132C00F40393 /* Logger */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Logger;
+		};
+		B357EBE12EC1F36B002E9FED /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B357EBE02EC1F36B002E9FED /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
+		B37A7BC12EC1E667007BC5D8 /* APIClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = APIClient;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B3295E882EC0B2E400F40393 /* Project object */;
 }

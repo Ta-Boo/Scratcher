@@ -1,84 +1,37 @@
 import SwiftUI
 import Logger
 
-///Similar  behaviour can be achieved with .task modifier(without explicit canceling,) in case you want to run it on appear. SInce i was not sure i implemented it with button action.
-struct CardScratchView: View {
-    @EnvironmentObject var cardState: CardStateHolder
-    @State private var scratchTask: Task<Void, Error>?
-
-    private var isScratching: Bool { scratchTask != nil }
-    private var revealedCode: String? {
-        switch cardState.cardState {
-        case .scratched(let code):
-            return code
-        default:
-            return nil
-        }
+struct CardStateView: View {
+    typealias C = Constants
+    struct Constants {
+        static let spacing: CGFloat = 0
     }
-
+    @EnvironmentObject private var navigation: NavigationService
+    @EnvironmentObject private var cardStateHolder: CardStateHolder
 
     var body: some View {
-        VStack(spacing: 30) {
-            if let code = revealedCode {
-                VStack {
-                    Text("Congratulations! Your code is:")
-                        .font(.headline)
-                    Text(code)
-                        .font(.system(.title, design: .monospaced).bold())
-                        .padding()
-                        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 8))
-                }
-            } else {
-                scratchButton
+        VStack(spacing: C.spacing) {
+            CardView()
+                .padding()
+            Spacer()
+            Button("Scratch card") {
+                Logger.log("Tapped scratch card from state: \(cardStateHolder.cardState)")
+                navigation.navigate(to: .scratchCard, modally: true)
             }
-        }
-        .padding()
-        .onDisappear {
-            onDisappear()
-        }
-        
-    }
+            .buttonStyle(.secondary)
+            .disabled(!cardStateHolder.cardState.isScratchable)
+            .padding()
 
-    private var scratchButton: some View {
-        Button(action: {
-            scratchTask = startScratching()
-        }) {
-            ZStack {
-                if isScratching {
-                    ProgressView()
-                } else {
-                    Text("Scratch to Reveal")
-                }
+            Button("Activate") {
+                Logger.log("Tapped card activation from state: \(cardStateHolder.cardState)")
+                navigation.navigate(to: .activation, modally: true)
             }
-            .font(.headline.bold())
-            .frame(maxWidth: .infinity, minHeight: 50)
+            .buttonStyle(.primary)
+            .disabled(!cardStateHolder.cardState.isActivable)
+            .padding()
         }
-        .buttonStyle(.primary)
-        .disabled(isScratching)
-    }
-}
+        .background(Color.mainBackground)
+        .environmentObject(cardStateHolder)
 
-//MARK: Logic
-extension CardScratchView {
-    private func startScratching() -> Task<Void, Error> {
-        return Task {
-            defer { scratchTask = nil }
-            do {
-                try await Task.sleep(for: .seconds(2))
-                await MainActor.run {
-                    cardState.cardState = .scratched(UUID().uuidString)
-                }
-            } catch is CancellationError {
-                Logger.log("Scratch task was cancelled.", level: .info)
-            } catch {
-                Logger.log("Unexpected error during scratching: \(error)", level: .error)
-            }
-        }
-    }
-
-    private func onDisappear() {
-        let hashValue = scratchTask?.hashValue ?? 0
-        Logger.log("CardScratchView disappeared, cancelling scratch task if active. Task: \(hashValue)", level: .info)
-        scratchTask?.cancel()
     }
 }

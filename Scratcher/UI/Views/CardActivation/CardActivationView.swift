@@ -3,11 +3,21 @@ import Logger
 import APIClient
 
 struct CardActivationView: View {
+
+    typealias C = Constants
+    struct Constants {
+        static let topPadding: CGFloat = 40
+        static let verticalSpacing: CGFloat = 30
+        static let codeSpacing: CGFloat = 12
+        static let buttonMinHeight: CGFloat = 50
+        static let minimumRequiredVersion: Double = 6.1
+    }
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var cardState: CardStateHolder
     @State private var activationTask: Task<Void, Error>?
     @State var alert: AlertModel?
 
+    @Inject private var apiClient: APIClient
     private var isActivating: Bool { activationTask != nil }
 
     private var code: String {
@@ -15,12 +25,12 @@ struct CardActivationView: View {
     }
 
     var body: some View {
-        VStack(spacing: 30) {
+        VStack(spacing: C.verticalSpacing) {
             Text("Activate Your Card")
                 .font(.largeTitle.bold())
-                .padding(.top, 40)
+                .padding(.top, C.topPadding)
 
-            VStack(spacing: 12) {
+            VStack(spacing: C.codeSpacing) {
                 Text("Code to activate:")
                     .font(.subheadline)
                     .foregroundColor(.textSecondary)
@@ -45,7 +55,7 @@ struct CardActivationView: View {
                     }
                 }
                 .font(.headline.bold())
-                .frame(maxWidth: .infinity, minHeight: 50)
+                .frame(maxWidth: .infinity, minHeight: C.buttonMinHeight)
             }
             .buttonStyle(.primary)
             .disabled(isActivating)
@@ -78,24 +88,24 @@ extension CardActivationView {
             do {
                 Logger.log("Starting card activation with code: \(code)", level: .info)
 
-                let apiClient = APIClient(url: "https://api.o2.sk")
+                let apiClient = apiClient
                 let endpoint = ActivationEndpoint(code: code)
                 let response = try await apiClient.requestWithoutAuth(endpoint, responseType: ActivationResponse.self)
 
 
-                // Parse version and check if greater than 6.1
-                if let version = Double(response.ios), version > 6.1 {
-                    Logger.log("Activation successful! Version \(version) > 6.1", level: .info)
+                // Parse version and check if greater than minimum required version
+                if let version = Double(response.ios), version > C.minimumRequiredVersion {
+                    Logger.log("Activation successful! Version \(version) > \(C.minimumRequiredVersion)", level: .info)
                     await MainActor.run {
                         cardState.cardState = .activated(code)
                         dismiss()
                     }
                 } else {
-                    Logger.log("Activation failed: Version \(response.ios) is not greater than 6.1", level: .warning)
+                    Logger.log("Activation failed: Version \(response.ios) is not greater than \(C.minimumRequiredVersion)", level: .warning)
                     await MainActor.run {
                         alert = AlertModel(
                             title: "Failure",
-                            description: "Card activation failed. Version \(response.ios) does not meet requirements (must be > 6.1).",
+                            description: "Card activation failed. Version \(response.ios) does not meet requirements (must be > \(C.minimumRequiredVersion)).",
                         )
                     }
                 }

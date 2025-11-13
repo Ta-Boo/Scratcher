@@ -40,7 +40,6 @@ struct CardActivationView: View {
                     .padding()
                     .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 8))
             }
-
             Spacer()
 
             Button(action: {
